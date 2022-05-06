@@ -54,15 +54,19 @@ public class UserServiceImp implements UserService {
 		try {
 			logger.info("findUser service is invoke");
 
-			String jwt = bCryptPasswordEncoder.encode(user.getPassword());
-			user.setPassword(jwt);
 			BeanUtils.copyProperties(user, userEntity);
 			String email = userEntity.getEmail();
 			String password = userEntity.getPassword();
-			if (this.userRepository.findByEmail(email).toString() == email
-					&& this.userRepository.findByPassword(password).toString() == password)
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();  
+						
+			if (encoder.matches(password,this.userRepository.findByPassword(email)) == true)
 			{
+				
 				returnValue = true;
+			}
+			
+			else {
+				returnValue = false;
 			}
 		} catch (Exception ex) {
 			logger.error("findUser service is not invoke error message:" + ex.getMessage());

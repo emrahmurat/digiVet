@@ -55,15 +55,16 @@ public class VetServicesImp implements VetServices {
 		try {
 			logger.info("findVet service is invoke");
 
-			String jwt = bCryptPasswordEncoder.encode(loginDto.getPassword());
-			loginDto.setPassword(jwt);
 			BeanUtils.copyProperties(loginDto, vetEntity);
 			String email = vetEntity.getEmail();
 			String password = vetEntity.getPassword();
-			if (this.repository.findByEmail(email).toString() == email
-					&& this.repository.findByPassword(password).toString() == password)
+			
+			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+			if (encoder.matches(password,this.repository.findByPassword(email)) == true)
 			{
 				returnValue = true;
+			}else {
+				returnValue = false;
 			}
 			
 		} catch (Exception ex) {
