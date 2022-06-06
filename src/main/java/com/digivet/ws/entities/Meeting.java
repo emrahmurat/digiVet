@@ -31,6 +31,8 @@ public class Meeting {
 	private String vetEmail;
 	@Column(name = "user_email")
 	private String userEmail;
+	
+	
 	public Meeting(int id, String userFirstName, String userLastName, String vetFirstName, String vetLastName,
 			String meetingType, String meetingDate,String userEmail,String vetEmail) {
 		super();

@@ -11,8 +11,9 @@ public interface MeetService {
 	MeetingDto createMeet(MeetingDto meetingDto);
 	List<MeetingDto> getAllVetMeet(MeetingDto meetingDto);
 	List<MeetingDto> getAllUserMeet(MeetingDto meetingDto);
-	MeetingDto deleteMeeting(int id);
+	MeetingDto deleteMeeting(MeetingDto meetingDto);
 	MeetingDto updateMeeting(MeetingDto meetingDto);
 	
+	List<MeetingDto> getAllmeet();
 	
 }

@@ -2,6 +2,7 @@ package com.digivet.ws.model.response;
 
 public class UserRest {
 
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -13,8 +14,9 @@ public class UserRest {
 	public UserRest() {
 		super();
 	}
-	public UserRest(String firstName, String lastName, String email, String password,String city,String Country,String adress) {
+	public UserRest(int id,String firstName, String lastName, String email, String password,String city,String Country,String adress) {
 		super();
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -22,6 +24,13 @@ public class UserRest {
 		this.city = city;
 		this.country = Country;
 		this.adress = adress;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getFirstName() {
 		return firstName;

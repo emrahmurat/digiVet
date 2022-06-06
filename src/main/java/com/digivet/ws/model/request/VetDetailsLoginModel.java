@@ -1,7 +1,11 @@
 package com.digivet.ws.model.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 public class VetDetailsLoginModel {
+	@JsonIgnoreProperties("email")
 	private String email;
+	@JsonIgnoreProperties("password")
 	private String password;
 	public VetDetailsLoginModel(String email, String password) {
 		super();

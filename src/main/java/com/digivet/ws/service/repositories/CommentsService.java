@@ -8,7 +8,8 @@ public interface CommentsService {
 
 	List<CommentDto> findComment(CommentDto commentDto);
 	CommentDto createComment(CommentDto commentDto);
-	CommentDto deleteComment(int id);
+	CommentDto deleteComment(CommentDto commentDto);
+	List<CommentDto> findAllComment();
 	
 	
 }

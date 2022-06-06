@@ -2,6 +2,7 @@ package com.digivet.ws.model.request;
 
 public class UserDetailsRequestModel {
 
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -13,8 +14,9 @@ public class UserDetailsRequestModel {
 	public UserDetailsRequestModel() {
 		super();
 	}
-	public UserDetailsRequestModel(String firstName, String lastName, String email, String password,String city,String Country,String adress) {
+	public UserDetailsRequestModel(int id,String firstName, String lastName, String email, String password,String city,String Country,String adress) {
 		super();
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -22,6 +24,13 @@ public class UserDetailsRequestModel {
 		this.city = city;
 		this.country = Country;
 		this.adress =adress;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getFirstName() {
 		return firstName;

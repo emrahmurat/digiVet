@@ -4,19 +4,30 @@ import java.util.Date;
 
 public class CommentDetailsRequestModel {
 
+	private int id;
 	private String userEmail;
 	private String vetEmail;
 	private String comment;
 	private Date date;
-	public CommentDetailsRequestModel(String userEmail, String vetEmail, String comment, Date date) {
+	private String CreateComment;
+	public CommentDetailsRequestModel(int id,String userEmail, String vetEmail, String comment, Date date,String createComment) {
 		super();
+		this.id = id;
 		this.userEmail = userEmail;
 		this.vetEmail = vetEmail;
 		this.comment = comment;
 		this.date = date;
+		this.CreateComment = createComment;
 	}
 	public CommentDetailsRequestModel() {
 		super();
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getUserEmail() {
 		return userEmail;
@@ -41,6 +52,12 @@ public class CommentDetailsRequestModel {
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	public String getCreateComment() {
+		return CreateComment;
+	}
+	public void setCreateComment(String createComment) {
+		CreateComment = createComment;
 	}
 	
 	

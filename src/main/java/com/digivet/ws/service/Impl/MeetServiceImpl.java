@@ -11,7 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.stereotype.Service;
 
+import com.digivet.ws.Shared.dto.CommentDto;
 import com.digivet.ws.Shared.dto.MeetingDto;
+import com.digivet.ws.config.MailSenderConfig;
+import com.digivet.ws.entities.Comments;
 import com.digivet.ws.entities.Meeting;
 import com.digivet.ws.repositories.MeetingRepository;
 import com.digivet.ws.service.repositories.MeetService;
@@ -21,6 +24,8 @@ public class MeetServiceImpl implements MeetService {
 
 	Logger logger = LogManager.getLogger(CommentServiceImpl.class);
 
+	@Autowired
+	private MailSenderConfig config;
 	@Autowired
 	private MeetingRepository meetingRepository;
 
@@ -35,11 +40,13 @@ public class MeetServiceImpl implements MeetService {
 		try {
 			BeanUtils.copyProperties(meetingDto, meetingEntity);
 			if (this.meetingRepository.findByMeetingDate(meetingEntity.getMeetingDate()) != null)
-				throw new RuntimeException("the record is already exist");
+				throw new RuntimeException("Tarih bu tarih dolu");
 
 			storedByMeeting = this.meetingRepository.save(meetingEntity);
 			BeanUtils.copyProperties(storedByMeeting, returnValue);
 
+			config.vetMeetSendMail(returnValue);
+			config.userMeetSendMail(returnValue);
 			logger.info("createMeet service is invoke");
 
 		} catch (Exception ex) {
@@ -97,9 +104,13 @@ public class MeetServiceImpl implements MeetService {
 	}
 
 	@Override
-	public MeetingDto deleteMeeting(int id) {
+	public MeetingDto deleteMeeting(MeetingDto meetingDto) {
 
+		
+		Meeting meetEntity = new Meeting();
 		try {
+			BeanUtils.copyProperties(meetingDto, meetEntity);
+			int id = meetEntity.getId();
 			logger.info("deleteMeeting service is invoke");
 
 			this.meetingRepository.deleteById(id);
@@ -128,6 +139,22 @@ public class MeetServiceImpl implements MeetService {
 			logger.error("updateMeeting service is not invoke error message:" + ex.getMessage());
 		}
 		
+		return returnValue;
+	}
+
+	@Override
+	public List<MeetingDto> getAllmeet() {
+		List<MeetingDto> returnValue = new ArrayList<MeetingDto>();
+		try {
+			List<Meeting> storedByData = this.meetingRepository.findAll();
+			ModelMapper modelMapper = new ModelMapper();
+			for (Meeting meet : storedByData) {
+				returnValue.add(modelMapper.map(meet, MeetingDto.class));
+			}
+			logger.debug("getAllVet service is invoke");
+		}catch(Exception ex) {
+			logger.error("getAll Service is not invoked error :"+ex.getMessage());
+		}
 		return returnValue;
 	}
 

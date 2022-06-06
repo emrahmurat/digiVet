@@ -3,6 +3,7 @@ package com.digivet.ws.model.response;
 
 public class MeetRest {
 
+	private int id;
 	private String userFirstName;
 	private String userLastName;
 	private String vetFirstName;
@@ -12,9 +13,10 @@ public class MeetRest {
 	private String vetEmail;
 	private String userEmail;
 
-	public MeetRest(String userFirstName, String userLastName, String vetFirstName,
+	public MeetRest(int id,String userFirstName, String userLastName, String vetFirstName,
 			String vetLastName, String meetingType, String meetingDate,String vetEmail,String userEmail) {
 		super();
+		this.id = id;
 		this.userFirstName = userFirstName;
 		this.userLastName = userLastName;
 		this.vetFirstName = vetFirstName;
@@ -24,8 +26,16 @@ public class MeetRest {
 		this.vetEmail =vetEmail;
 		this.userEmail = userEmail;
 	}
+	
 	public MeetRest() {
 		super();
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getUserFirstName() {
 		return userFirstName;

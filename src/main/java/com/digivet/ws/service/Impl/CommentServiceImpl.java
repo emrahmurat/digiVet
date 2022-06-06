@@ -71,8 +71,11 @@ public class CommentServiceImpl implements CommentsService {
 	}
 
 	@Override
-	public CommentDto deleteComment(int id) {
+	public CommentDto deleteComment(CommentDto commentDto) {
+		Comments commentEntity = new Comments();
 		try {
+			BeanUtils.copyProperties(commentDto, commentEntity);
+			int id = commentEntity.getId();
 			logger.info("deleteComment service is invoke");
 			this.commentRepository.deleteById(id);
 		} catch (Exception ex) {
@@ -80,6 +83,25 @@ public class CommentServiceImpl implements CommentsService {
 
 		}
 		return null;
+	}
+
+	@Override
+	public List<CommentDto> findAllComment() {
+		
+		List<CommentDto> returnValue = new ArrayList<CommentDto>();
+		ModelMapper mapper = new ModelMapper();
+		try {
+			List<Comments> storedByData = this.commentRepository.findAll();
+			for (Comments comments : storedByData) {
+				returnValue.add(mapper.map(comments, CommentDto.class));
+				logger.info("findAllComment service is invoke");
+
+			}
+		}catch(Exception ex) {
+			logger.error("findAllComment service is not invoke error message:" + ex.getMessage());
+
+		}
+		return returnValue;
 	}
 
 }

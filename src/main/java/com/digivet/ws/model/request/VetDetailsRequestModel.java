@@ -1,6 +1,7 @@
 package com.digivet.ws.model.request;
 
 public class VetDetailsRequestModel {
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -10,9 +11,10 @@ public class VetDetailsRequestModel {
 	private String branch;
 	private String hospital;
 	private String adress;
-	public VetDetailsRequestModel(String firstName, String lastName, String email, String password, String city,
+	public VetDetailsRequestModel(int id,String firstName, String lastName, String email, String password, String city,
 			String country, String branch, String hospital,String adress) {
 		super();
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -21,7 +23,17 @@ public class VetDetailsRequestModel {
 		this.country = country;
 		this.branch = branch;
 		this.hospital = hospital;
+		this.adress = adress;
 	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public VetDetailsRequestModel() {
 		super();
 	}

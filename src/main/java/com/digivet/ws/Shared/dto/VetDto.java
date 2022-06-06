@@ -14,6 +14,20 @@ public class VetDto {
 	private String branch;
 	private String hospital;
 	
+	public VetDto(int id, String firstName, String lastName, String email, String password, String city, String country,
+			String adress, String branch, String hospital) {
+		super();
+		this.id = id;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.email = email;
+		this.password = password;
+		this.city = city;
+		this.country = country;
+		this.adress = adress;
+		this.branch = branch;
+		this.hospital = hospital;
+	}
 	public VetDto() {
 		super();
 	}

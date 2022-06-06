@@ -2,6 +2,7 @@ package com.digivet.ws.model.request;
 
 public class MeetingDetailsRequestModel {
 
+	private int id;
 	private String userFirstName;
 	private String userLastName;
 	private String vetFirstName;
@@ -10,9 +11,10 @@ public class MeetingDetailsRequestModel {
 	private String meetingDate;
 	private String vetEmail;
 	private String userEmail;
-	public MeetingDetailsRequestModel(String userFirstName, String userLastName, String vetFirstName,
+	public MeetingDetailsRequestModel(int id,String userFirstName, String userLastName, String vetFirstName,
 			String vetLastName, String meetingType, String meetingDate,String vetEmail,String userEmail) {
 		super();
+		this.id = id;
 		this.userFirstName = userFirstName;
 		this.userLastName = userLastName;
 		this.vetFirstName = vetFirstName;
@@ -24,6 +26,13 @@ public class MeetingDetailsRequestModel {
 	}
 	public MeetingDetailsRequestModel() {
 		super();
+	}
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getUserFirstName() {
 		return userFirstName;

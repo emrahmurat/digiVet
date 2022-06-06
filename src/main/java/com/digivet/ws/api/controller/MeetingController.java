@@ -3,6 +3,8 @@ package com.digivet.ws.api.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.websocket.server.PathParam;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -11,14 +13,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.digivet.ws.Shared.dto.MeetingDto;
+import com.digivet.ws.entities.Meeting;
 import com.digivet.ws.model.request.MeetingDetailsRequestModel;
 import com.digivet.ws.model.response.MeetRest;
+import com.digivet.ws.model.response.VetRest;
 import com.digivet.ws.service.repositories.MeetService;
 
 @RestController
@@ -93,13 +100,19 @@ public class MeetingController {
 		return returnValue;
 	}
 
-	@DeleteMapping(value = "/deleteMeet{id}")
-	public MeetRest deleteMeet(@Param(value = "id") int id) {
+	@PostMapping(value = "/deleteMeet")
+	public MeetRest deleteMeet(@RequestBody MeetingDetailsRequestModel requestModel) {
+		MeetRest returnValue = new MeetRest();
+		MeetingDto storedByService = new MeetingDto();
+		MeetingDto meetDto = new MeetingDto();
+		
 		try {
+			BeanUtils.copyProperties(requestModel, meetDto);
+			storedByService = this.meetService.deleteMeeting(meetDto);
+			BeanUtils.copyProperties(storedByService, returnValue);
 			logger.debug("deleteMeet is invoke");
 
-			this.meetService.deleteMeeting(id);
-
+			
 		} catch (Exception ex) {
 			logger.error("deleteMeet is not invoked error message :" +ex.getMessage());
 		}
@@ -107,7 +120,7 @@ public class MeetingController {
 	}
 
 	@PutMapping(value = "/updateMeet")
-	public MeetRest updateMeeting(MeetingDetailsRequestModel meetingDetailsRequestModel) {
+	public MeetRest updateMeeting(@RequestBody MeetingDetailsRequestModel meetingDetailsRequestModel) {
 		MeetingDto storedByMeetUpdate = new MeetingDto();
 		MeetRest returnValue = new MeetRest();
 		MeetingDto dto = new MeetingDto();
@@ -115,13 +128,33 @@ public class MeetingController {
 			BeanUtils.copyProperties(meetingDetailsRequestModel, dto);
 			storedByMeetUpdate = this.meetService.updateMeeting(dto);
 			BeanUtils.copyProperties(storedByMeetUpdate, returnValue);
-			logger.debug("updateMeeting is invoke");
+			logger.debug("updateMeeting controller is invoke");
 
 		} catch (Exception ex) {
-			logger.error("updateMeeting is not invoked error message :" +ex.getMessage());
+			logger.error("updateMeeting controller is not invoked error message :" +ex.getMessage());
 		}
 
 		return returnValue;
 	}
+	
+	
+	@GetMapping("/findAll")
+	public List<MeetRest> getAllVet(){
+		List<MeetRest> returnValue = new ArrayList<MeetRest>();
+		
+		try {
+			List<MeetingDto> storedByService = this.meetService.getAllmeet();
+			ModelMapper modelMapper = new ModelMapper();
+
+			for (MeetingDto meet : storedByService) {
+				returnValue.add(modelMapper.map(meet, MeetRest.class));
+			}
+			logger.debug("getAllVet controller service is invoke");
+		}catch(Exception ex) {
+			logger.error("getAll Service controller is not invoked error :"+ex.getMessage());
+		}
+		return returnValue;
+	}
+	
 
 }

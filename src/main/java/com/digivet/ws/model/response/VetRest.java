@@ -2,6 +2,7 @@ package com.digivet.ws.model.response;
 
 public class VetRest {
 
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String email;
@@ -14,8 +15,9 @@ public class VetRest {
 	public VetRest() {
 		super();
 	}
-	public VetRest(String firstName, String lastName, String email, String password,String city,String Country,String adress,String branch,String hospital) {
+	public VetRest(int id,String firstName, String lastName, String email, String password,String city,String Country,String adress,String branch,String hospital) {
 		super();
+		this.id = id;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.email = email;
@@ -25,6 +27,14 @@ public class VetRest {
 		this.adress = adress;
 		this.branch = branch;
 		this.hospital = hospital;
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
 	}
 	public String getFirstName() {
 		return firstName;

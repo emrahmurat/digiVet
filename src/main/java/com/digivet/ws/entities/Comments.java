@@ -26,17 +26,20 @@ public class Comments {
 	private String comment;
 	@Column(name="date")
 	private Date date;
+	@Column(name = "create_comment")
+	private String CreateComment;
 	
 	public Comments() {
 		super();
 	}
-	public Comments(int id, String userEmail, String vetEmail, String comment, Date date) {
+	public Comments(int id, String userEmail, String vetEmail, String comment, Date date,String CreateComment) {
 		super();
 		this.id = id;
 		this.userEmail = userEmail;
 		this.vetEmail = vetEmail;
 		this.comment = comment;
 		this.date = date;
+		this.CreateComment = CreateComment;
 	}
 	public int getId() {
 		return id;
@@ -67,6 +70,12 @@ public class Comments {
 	}
 	public void setDate(Date date) {
 		this.date = date;
+	}
+	public String getCreateComment() {
+		return CreateComment;
+	}
+	public void setCreateComment(String createComment) {
+		CreateComment = createComment;
 	}
 	
 

@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.digivet.ws.Shared.dto.CommentDto;
+import com.digivet.ws.entities.Comments;
 import com.digivet.ws.model.request.CommentDetailsRequestModel;
 import com.digivet.ws.model.response.CommentRest;
 import com.digivet.ws.service.repositories.CommentsService;
@@ -69,11 +71,13 @@ public class CommentsController {
 		return returnValue;
 	}
 
-	@DeleteMapping("/deleteComment{id}")
-	public List<CommentRest> deleteComment(@Param(value = "id") int id) {
+	@PostMapping("/deleteComment")
+	public CommentRest deleteComment(@RequestBody CommentDetailsRequestModel commentDetailsRequestModel) {
+		CommentDto commentDto = new CommentDto();
+		
 		try {
-
-			this.service.deleteComment(id);
+			BeanUtils.copyProperties(commentDetailsRequestModel, commentDto);
+			this.service.deleteComment(commentDto);
 			logger.debug("delete controller is invoke");
 
 		} catch (Exception ex) {
@@ -83,5 +87,23 @@ public class CommentsController {
 		}
 		return null;
 
+	}
+	
+	@GetMapping("/findAll")
+	public List<CommentRest> findAllComment(){
+		List<CommentRest> returnValue = new ArrayList<CommentRest>();
+		try {
+			List<CommentDto> storedByService = this.service.findAllComment();
+			ModelMapper mapper = new ModelMapper();
+			for (CommentDto comments : storedByService) {
+				returnValue.add(mapper.map(comments, CommentRest.class));
+				logger.info("findAllComment controller is invoke");
+
+			}
+		}catch(Exception ex) {
+			logger.error("findAllComment controller is not invoked error message :" + ex.getMessage());
+
+		}
+		return returnValue;
 	}
 }

@@ -13,6 +13,8 @@ public interface VetRepository extends JpaRepository<Vet, Integer > {
 	Vet findByEmail(String email);
 	@Query(value = "SELECT password FROM vet where email = :email ",nativeQuery = true)
 	String findByPassword(String email);
+	@Query(value = "SELECT * FROM vet where email =:email", nativeQuery = true)
+	Vet findByVetProfile(String email);
 
 	
 }
